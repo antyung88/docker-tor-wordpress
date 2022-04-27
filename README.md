@@ -7,7 +7,7 @@ tor proxy pass WordPress in Docker
 Git Clone Repository
 
 ```
-https://github.com/antyung88/docker-tor-wordpress.git && cd docker-tor-wordpress
+git clone https://github.com/antyung88/docker-tor-wordpress.git && cd docker-tor-wordpress
 ```
 
 Wait to the container image be downloaded. And them we can generate our site skeleton:
