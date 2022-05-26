@@ -28,7 +28,7 @@ services:
       - ./db:/var/lib/mysql
 
   tor:
-    image: antyung/tor-wordpress
+    image: ghcr.io/antyung88/tor-wordpress:master
     restart: always
     volumes:
       - ./web:/web
