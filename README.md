@@ -13,7 +13,7 @@ git clone https://github.com/antyung88/docker-tor-wordpress.git && cd docker-tor
 Wait to the container image be downloaded. And them we can generate our site skeleton:
 
 ```
-docker run -it --rm -v $(pwd)/web:/web antyung/tor-wordpress generate CHANGE_ME
+docker run -it --rm -v $(pwd)/web:/web ghcr.io/antyung88/tor-wordpress:master generate CHANGE_ME
 ```
 ```
 [+] Generating the address with mask: CHANGE_ME
