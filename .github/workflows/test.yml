@@ -1,0 +1,54 @@
+name: Test Github Packages
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v3
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.GH_TOKEN }}
+      - run: |
+          docker build . -t ghcr.io/${{ github.actor}}/${{ secrets.image }}:test
+          docker save ghcr.io/${{ secrets.USER }}/${{ secrets.IMAGE }}:test > ./docker-image.tar
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: ./docker-image.tar
+          retention-days: 1
+
+  test:
+    name: Test Image
+    runs-on: ubuntu-20.04
+    needs: ["build"]
+    steps:
+      - name: Download built docker image
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+          path: .artifact
+      - name: Prepare image to run
+        working-directory: .artifact
+        run: docker load < docker-image.tar
+      - name: Check Out Repo 
+        uses: actions/checkout@v3
+      - name: Try to run (github.com)
+        run: |
+          docker run -it --rm -v $(pwd)/web:/web ghcr.io/antyung88/tor-wordpress:test generate test
+          docker-compose -f .github/docker-compose-test.yml up -d
+      - name: Should exit with code 1
+        run: |
+          sleep 20
+          docker logs tor-wordpress-test 2>&1 | grep "apache2 -D FOREGROUND"
+          docker logs tor-db-test 2>&1 | grep "Server hostname (bind-address)"
+          docker logs tor-test 2>&1 | grep "Bootstrapped 100%: Done"

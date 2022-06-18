@@ -1,9 +1,7 @@
-version: '3.1'
-
+version: '3.3'
 services:
-
-  wordpress:
-    container_name: wordpress
+  tor-wordpress:
+    container_name: tor-wordpress
     image: wordpress
     restart: always
     ports:
@@ -15,8 +13,8 @@ services:
       WORDPRESS_DB_NAME: exampledb
     volumes:
       - ./web/www:/var/www/html
-
-  db:
+  tor-db:
+    container_name: tor-db
     image: mysql:5.7
     restart: always
     environment:
@@ -26,13 +24,9 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - ./db:/var/lib/mysql
-
   tor:
-    image: ghcr.io/antyung88/tor-wordpress:master
+    container_name: tor
+    image: ghcr.io/antyung88/tor-wordpress:stable
     restart: always
     volumes:
       - ./web:/web
-
-volumes:
-  wordpress:
-  db:

@@ -1,0 +1,46 @@
+name: Release Github Packages
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Stable Release'
+        required: true
+        default: 'stable-deploy'
+
+jobs:
+
+  build-stable:
+    name: Build Image Stable
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.job == 'stable-deploy'}}
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v3
+      - name: Login to Github Packages
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+      - run: |
+          docker build . -t ghcr.io/${{ github.actor}}/${{ secrets.image }}:stable
+          docker push ghcr.io/${{ github.actor}}/${{ secrets.image }}:stable
+
+  build-latest:
+    name: Build Image Latest
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.job != 'stable-deploy'}}
+      - name: Check Out Repo 
+        uses: actions/checkout@v3
+      - name: Login to Github Packages
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+      - run: |
+          docker build . -t ghcr.io/${{ github.actor}}/${{ secrets.image }}:latest
+          docker push ghcr.io/${{ github.actor}}/${{ secrets.image }}:latest
