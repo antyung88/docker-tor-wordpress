@@ -31,8 +31,9 @@ jobs:
 
   build-latest:
     name: Build Image Latest
-    runs-on: ubuntu-latest
     if: ${{ github.event.inputs.job != 'stable-deploy'}}
+    runs-on: ubuntu-latest
+    steps:
       - name: Check Out Repo 
         uses: actions/checkout@v3
       - name: Login to Github Packages
