@@ -1,4 +1,4 @@
-# docker-tor-wordpress
+# docker-tor-wordpress [![Release Github Packages](https://github.com/antyung88/docker-tor-wordpress/actions/workflows/release.yml/badge.svg)](https://github.com/antyung88/docker-tor-wordpress/actions/workflows/release.yml)
 
 tor proxy pass WordPress in Docker
 
