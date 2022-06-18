@@ -44,6 +44,7 @@ jobs:
       - name: Check Out Repo 
         uses: actions/checkout@v3
       - name: Try to run (github.com)
+        working-directory: /
         run: |
           docker run --rm -v /web:/web ghcr.io/${{ secrets.USER }}/${{ secrets.IMAGE }}:test generate test
           docker-compose -f .github/docker-compose-test.yml up -d
