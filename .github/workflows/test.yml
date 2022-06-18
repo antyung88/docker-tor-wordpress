@@ -46,7 +46,7 @@ jobs:
         working-directory: /
         run: |
           docker run --rm -v /web:/web ghcr.io/${{ secrets.USER }}/${{ secrets.IMAGE }}:test generate test
-          cp .github/docker-compose-test.yml ./docker-compose.yml
+          cp /.github/docker-compose-test.yml ./docker-compose.yml
           docker-compose up -d
       - name: Should exit with code 1
         run: |
