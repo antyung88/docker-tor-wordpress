@@ -48,7 +48,8 @@ jobs:
           docker-compose -f .github/docker-compose-test.yml up -d
       - name: Should exit with code 1
         run: |
-          sleep 120
+          sleep 80
           docker logs tor-wordpress-test 2>&1 | grep "apache2 -D FOREGROUND"
           docker logs tor-db-test 2>&1 | grep "Server hostname (bind-address)"
-          docker logs tor-test 2>&1 | grep "Bootstrapped 100%: Done"
+          docker logs tor-test 2>&1 | grep "Bootstrapped 100%"
+          docker logs tor-test
