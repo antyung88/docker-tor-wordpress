@@ -4,10 +4,6 @@ on:
   pull_request:
     branches: [ master ]
 
-defaults:
- run:
-  working-directory: /
-
 jobs:
 
   build:
@@ -22,6 +18,7 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.GH_TOKEN }}
       - run: |
+          pwd
           docker build . -t ghcr.io/${{ secrets.USER }}/${{ secrets.image }}:test
           docker save ghcr.io/${{ secrets.USER }}/${{ secrets.IMAGE }}:test > ./docker-image.tar
       - name: Upload artifact
