@@ -17,7 +17,7 @@ services:
       - tor-public
   tor-db:
     container_name: tor-db
-    image: mysql:5.7
+    image: mysql:8.0
     restart: always
     environment:
       MYSQL_DATABASE: exampledb
